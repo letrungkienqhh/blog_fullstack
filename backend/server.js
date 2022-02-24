@@ -29,8 +29,8 @@ if (process.env.NODE_ENV === 'development'){
 }
 
 //routes
-app.use('/api',blogRoutes)
-app.use('/api',authRoutes)
+app.use('/',blogRoutes)
+app.use('/',authRoutes)
 
 const port =process.env.PORT || 5000
 

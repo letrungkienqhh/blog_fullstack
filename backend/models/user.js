@@ -61,6 +61,9 @@ userSchema.virtual('password')
         //encryptPassword
         this.hashed_password=this.encryptPassword(password)
     })
+    .get(function(){
+        return this.password
+    })
     
 userSchema.methods={
     authenticate:function(plainText){
