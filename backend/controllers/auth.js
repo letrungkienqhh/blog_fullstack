@@ -8,7 +8,7 @@ exports.signup=(req,res)=>{
     User.findOne({email:email}).exec((err,user)=>{
         if (user){
             return res.status(400).json({
-                err:'Email invalid'
+                error:'Email invalid'
             })
         }
         let userName=shortId.generate()
@@ -20,8 +20,8 @@ exports.signup=(req,res)=>{
                     error:err
                 })  
             }
-            res.json({user:sucess})
-            //res.json({message:'Sign up successfully'})
+            res.json({user:sucess,message:'Sign up successfully. Please sign in'})
+       
         })
     })
 }
@@ -29,6 +29,7 @@ exports.signup=(req,res)=>{
 
 exports.signin=(req,res)=>{
     const {email,password} = req.body
+    console.log('fashfl')
     User.findOne({email:email}).exec((err,user)=>{
         //error happen
         if (err || !user){

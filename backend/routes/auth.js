@@ -7,7 +7,6 @@ const {runValidator}=require('../validators')
 const {userSignupValidator}=require('../validators/auth')
 const {userSignInValidator}=require('../validators/auth')
 
-
 router.post('/signup',userSignupValidator ,runValidator,signup)
 router.post('/signin',userSignInValidator ,runValidator,signin)
 router.get('/signout',signout)

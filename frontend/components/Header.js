@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React,{useState} from 'react'
 import Link from 'next/link'
-
+import {isAuth } from '../actions/auth'
 
 const styles={
     wrapper:"flex bg-blue-200 justify-between",
@@ -75,7 +75,7 @@ const Header = () => {
             
 
             </div>
-
+            {/* <div>{JSON.stringify(isAuth())}</div>  */}
             <div  className={styles.buttonContainer}>
                     <div className={styles.button}>
                         <Link href="./signup" >

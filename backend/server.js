@@ -24,6 +24,7 @@ app.use(cookieParser())
 
 //cors
 if (process.env.NODE_ENV === 'development'){
+    console.log(process.env.CLIENT_URL)
     app.use(cors({origin: `${process.env.CLIENT_URL}`}))
 
 }
