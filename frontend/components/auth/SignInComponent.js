@@ -25,10 +25,7 @@ const SignInComponent = () => {
          
         
             signin(user).then(data => {
-               
-
-                
-                if (data.error) {
+               if (data.error) {
                 setValues({ ...values, error: data.error, loading: false });
                 } else {
                     //save token to cookie

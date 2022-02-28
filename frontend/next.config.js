@@ -8,6 +8,7 @@ module.exports = {
   },
   env:{
     API_URL:'http://localhost:8000',
-    ENV:'development'
+    ENV:'development',
+    APP_NAME:'KANTAN',
   }
 }

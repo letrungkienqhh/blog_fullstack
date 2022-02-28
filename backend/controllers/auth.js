@@ -39,7 +39,7 @@ exports.signin=(req,res)=>{
         } 
         // authenticate (check password)
         if (!user.authenticate(password)){
-            return res.status.json({
+            return res.status(404).json({
                 error:'Email or password does not match. Please sign in again!'})
         }
 
@@ -84,6 +84,8 @@ exports.authMiddleware=(req,res,next)=>{
 
 exports.adminMiddleware=(req,res,next)=>{
     const adminUserId=req.user._id
+    
+    
     User.findById({_id:adminUserId}).exec((error,user)=>{
         if (error || !user){
             returnres.status(400).json({
@@ -96,6 +98,7 @@ exports.adminMiddleware=(req,res,next)=>{
             })
         }
         req.profile=user
+        
         next()
     })
 }

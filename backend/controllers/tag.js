@@ -1,28 +1,27 @@
-const Category =require('../models/category')
+const Tag =require('../models/tag')
 const slugify= require('slugify')
 
 
 exports.create=(req,res)=>{
     const {name}=req.body
-    console.log('dang o create')
+    console.log('dang o create cua tag')
     let slug=slugify(name).toLowerCase()
-    let category=new Category({name,slug})
-    
-    category.save((error,data)=>{
+    let tag=new Tag({name,slug})
+    tag.save((error,data)=>{
         if (error){
             return res.status(400).json({
                 error:error
             })
         
         }
-        console.log(category)
+        console.log(tag)
         return res.json(data)
     })
 }
 
 
 exports.list=(req, res) => {
-    Category.find({}).exec((error,data)=>{
+    Tag.find({}).exec((error,data)=>{
         if (error) {
             return res.status(404).json({error:error})
         }
@@ -34,7 +33,7 @@ exports.list=(req, res) => {
 exports.read=(req,res) => {
     let slug=req.params.slug.toLowerCase()
     console.log(slug)
-    Category.find({slug}).exec((error,data)=>{
+    Tag.find({slug}).exec((error,data)=>{
         if (error) {
             return res.status(405).json({error: error})
         }
@@ -43,17 +42,11 @@ exports.read=(req,res) => {
 }
 
 exports.remove=(req,res) => {
-    let slug =req.params.slug.toLowerCase()
-    console.log(req.params.slug)
-     console.log(req.headers)
-    console.log('dang o remover')
-    Category.findOneAndRemove({slug}).exec((error,data) => {
+    let slug=req.params.slug.toLowerCase()
+    Tag.findOneAndRemove({slug}).exec((error,data) => {
         if (error) {
             return res.status(404).json({error:error})
         }
-        else {
-            res.json({message:"thanh cong delete"})
-        }
-        
+        res.json({message:"Remove tag successfully"})
     })
 }

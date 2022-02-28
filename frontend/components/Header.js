@@ -1,8 +1,10 @@
 import Image from 'next/image'
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
 import {signout,isAuth } from '../actions/auth';
+
+import NProgress from 'nprogress';
 
 const styles={
     wrapper:"flex bg-blue-200 justify-between",
@@ -21,9 +23,14 @@ const APP_NAME="KANTAN"
 const Header = () => {
     const [selectedNavBar,setSelectedNavBar]=useState('trangchu')
     const user=isAuth()
-    const router = useRouter()
-    
+    const router = useRouter();
    
+    useEffect(() => {
+      router.events.on('routeChangeStart', () =>  NProgress.start());
+      router.events.on('routeChangeComplete', () =>  NProgress.done());
+      router.events.on('routeChangeError', () =>  NProgress.done());
+    }, []); 
+    
     return (
         <div className={styles.wrapper}>
             <div className={styles.logoContainer}> 

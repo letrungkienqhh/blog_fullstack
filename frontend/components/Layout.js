@@ -3,7 +3,9 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Head from 'next/head'
 
-
+const styles={
+    wrapper:'max-h-screen'
+}
 const Layout = ({children}) => {
     return (
         <>  
@@ -12,7 +14,9 @@ const Layout = ({children}) => {
             
         </Head>
         <Header/>
-        {children}
+        <div className={styles.wrapper}>
+                {children}
+        </div>
         <Footer/>   
         </>
     )
