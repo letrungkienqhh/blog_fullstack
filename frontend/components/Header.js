@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import React,{useState} from 'react'
 import Link from 'next/link'
-import {isAuth } from '../actions/auth'
+import { useRouter } from 'next/router';
+import {signout,isAuth } from '../actions/auth';
 
 const styles={
     wrapper:"flex bg-blue-200 justify-between",
@@ -19,7 +20,10 @@ const APP_NAME="KANTAN"
 
 const Header = () => {
     const [selectedNavBar,setSelectedNavBar]=useState('trangchu')
-
+    const user=isAuth()
+    const router = useRouter()
+    
+   
     return (
         <div className={styles.wrapper}>
             <div className={styles.logoContainer}> 
@@ -32,7 +36,7 @@ const Header = () => {
                     </Link>
                 </div>
                 
-            </div>
+            </div>                                      
             <div className={styles.navBarContainer}>
                 <div 
                     onClick={() =>setSelectedNavBar('trangchu')}
@@ -44,52 +48,82 @@ const Header = () => {
                 <div
                     onClick={() =>setSelectedNavBar('baiviet')}  
                     className={`${styles.navBarItem} ${selectedNavBar=='baiviet' && styles.selectedNavBarItem}` } >
-                    <Link href="./baiviet">
+                    <Link href="/baiviet">
                         <a>Bai Viet</a>
                     </Link>
                 </div>
                 <div
                      onClick={() =>setSelectedNavBar('hoctiengnhat')}
                      className={`${styles.navBarItem} ${selectedNavBar=='hoctiengnhat' && styles.selectedNavBarItem}` } >
-                    <Link href="./hoctiengnhat">
+                    <Link href="/hoctiengnhat">
                         <a>Hoc Tieng Nhat</a>
                     </Link>
                 </div>
                 
                 <div  className={`${styles.navBarItem} ${selectedNavBar=='khampha' && styles.selectedNavBarItem}` } onClick={() =>setSelectedNavBar('khampha')}>
-                    <Link href="./khampha">
+                    <Link href="/khampha">
                         <a>Kham pha nhat ban</a>
                     </Link>
                 </div>
 
                 <div className={`${styles.navBarItem} ${selectedNavBar=='kinhnghiem' && styles.selectedNavBarItem}` } onClick={() =>setSelectedNavBar('kinhnghiem')}>
-                    <Link href="./kinhnghiem">
+                    <Link href="/kinhnghiem">
                         <a>Kinh nghiem</a>
                     </Link>
                 </div>
                 <div  className={`${styles.navBarItem} ${selectedNavBar=='gocchiase' && styles.selectedNavBarItem}` } onClick={() =>setSelectedNavBar('gocchiase')}>
-                    <Link href="./gocchiase">
+                    <Link href="/gocchiase">
                         <a>Goc chia se</a>
                     </Link>
                 </div>
             
 
             </div>
-            {/* <div>{JSON.stringify(isAuth())}</div>  */}
-            <div  className={styles.buttonContainer}>
-                    <div className={styles.button}>
-                        <Link href="./signup" >
-                            <a>Sign Up</a>
-                        </Link>
-                    </div>
-                  
-                    <div className={styles.button}>
-                        <Link href="./signin" >
-                            <a>Sign in</a>
-                        </Link>
-                    </div>
+            {!user &&<div  className={styles.buttonContainer}>
+                                            <div className={styles.button}>
+                                                <Link href="/signup" >
+                                                    <a>Sign Up</a>
+                                                </Link>
+                                            </div>
+                                        
+                                            <div className={styles.button}>
+                                                <Link href="/signin" >
+                                                    <a>Sign in</a>
+                                                </Link>
+                                            </div>
                    
-            </div>
+                                        </div>
+            }
+            {(user && user.role==1 ) && <div  className={styles.buttonContainer}>
+                                            <div className={styles.button}>
+                                                <Link href={"/admin"}>
+                                                    <a>{isAuth().name}</a>
+                                                </Link>
+                                            </div>
+                                         
+                                            <div className={styles.button} onClick={()=>signout(()=>router.push('/signin'))}>
+                                              
+                                                    <a>Logout</a>
+                                               
+                                            </div>
+                   
+                                        </div>
+            }
+            {(user && user.role==0 ) && <div  className={styles.buttonContainer}>
+                                            <div className={styles.button}>
+                                                <Link href={"/user"}>
+                                                    <a>{user.name}</a>
+                                                </Link>
+                                            </div>
+                                         
+                                            <div className={styles.button} onClick={()=>signout(()=>router.push('/signin'))}>
+                                              
+                                                    <a>Logout</a>
+                                               
+                                            </div>
+                   
+                                        </div>
+            }
         
         </div>
     )

@@ -29,7 +29,7 @@ exports.signup=(req,res)=>{
 
 exports.signin=(req,res)=>{
     const {email,password} = req.body
-    console.log('fashfl')
+   
     User.findOne({email:email}).exec((err,user)=>{
         //error happen
         if (err || !user){
@@ -67,3 +67,36 @@ exports.requireSignin=expressJwt({
     secret:process.env.JWT_SECRET,
     algorithms: ['HS256']
 })
+
+exports.authMiddleware=(req,res,next)=>{
+    const authUserId=req.user._id
+    
+    User.findById({_id:authUserId}).exec((error,user)=>{
+        if (error || !user){
+            res.status(400).json({
+                error:"User not found"
+            }) 
+        }
+        req.profile=user
+        next()
+    })
+}
+
+exports.adminMiddleware=(req,res,next)=>{
+    const adminUserId=req.user._id
+    User.findById({_id:adminUserId}).exec((error,user)=>{
+        if (error || !user){
+            returnres.status(400).json({
+                error:"User not found"
+            }) 
+        }
+        if(user.role!==1){
+            return res.status(404).json({
+                error:"Admin resource. Access denied!!"
+            })
+        }
+        req.profile=user
+        next()
+    })
+}
+

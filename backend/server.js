@@ -8,6 +8,7 @@ require('dotenv').config()
 //routers
 const blogRoutes=require('./routes/blog')
 const authRoutes=require('./routes/auth')
+const userRoutes=require('./routes/user')
 //app
 const app=express()
 
@@ -32,6 +33,7 @@ if (process.env.NODE_ENV === 'development'){
 //routes
 app.use('/',blogRoutes)
 app.use('/',authRoutes)
+app.use('/',userRoutes)
 
 const port =process.env.PORT || 5000
 

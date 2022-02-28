@@ -2,8 +2,7 @@
 import cookie from "js-cookie";
 // import fetch from 'isomorphic-fetch'
 export const signup=(user)=>{
-    console.log(`dang sign up`)
-    console.log(user)
+   
     return fetch(`${process.env.API_URL}/signup`,{
         method:'POST',
         headers:{
@@ -14,7 +13,7 @@ export const signup=(user)=>{
         body:JSON.stringify(user)
     })
     .then(response =>{
-        console.log(response);
+        
         return response.json()
     })
     .catch(e=>console.log(e))
@@ -31,7 +30,7 @@ export const signin=user=>{
         body:JSON.stringify(user)
     })
     .then(response=>{
-        console.log(response)
+        
         return response.json()
 
     })

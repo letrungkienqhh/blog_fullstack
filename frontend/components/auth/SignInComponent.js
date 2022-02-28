@@ -1,5 +1,5 @@
-import React,{useState} from 'react'
-import {signin,authenticate} from '../../actions/auth'
+import React,{useEffect, useState} from 'react'
+import {signin,authenticate, isAuth} from '../../actions/auth'
 import Link from 'next/link'
 import { Router, useRouter } from 'next/router'
 const SignInComponent = () => {
@@ -14,38 +14,47 @@ const SignInComponent = () => {
         })
         
         const {email,password,error,loading,message,showForm} =values
+        useEffect(()=>{
+            isAuth() && router.push('/')
+        },[])
         const handleSumit=  (e)=>{
-          e.preventDefault()
-         
-          setValues({...values,loading:true,error:false})
-          const user={email,password} 
-          console.log(user)
-       
-          signin(user).then(data => {
-              console.log(data)
-             
-              console.log(`error la ${data.error}`)
+            e.preventDefault()
             
-            if (data.error) {
-              setValues({ ...values, error: data.error, loading: false });
-            } else {
-                //save token to cookie
-                //save user info to localStorage
-                //authenticate.user
-                authenticate(data,()=>{
-                    router.push('/')
-                })
-            }
-    })
-    console.log(values)
-}
+            setValues({...values,loading:true,error:false})
+            const user={email,password} 
+         
+        
+            signin(user).then(data => {
+               
+
+                
+                if (data.error) {
+                setValues({ ...values, error: data.error, loading: false });
+                } else {
+                    //save token to cookie
+                    //save user info to localStorage
+                    //authenticate.user
+                    authenticate(data,()=>{
+                        if (isAuth() && isAuth().role==1){
+                            router.push('/admin')
+                        }
+                        else if (isAuth()&& isAuth().role==0){
+                            router.push('/user')
+                        }
+                    })
+                }
+            
+            })
+   
+        }
+        const handleChange = name =>(e) => {
+            setValues({...values,error:false,[name]:e.target.value})
+          }
       
 
 
         
-        const handleChange = name =>(e) => {
-          setValues({...values,error:false,[name]:e.target.value})
-        }
+       
         const showError = () => (error ? <div className="bg-red-500 text-xl">{error}</div> : '');
         const showMessage=() => (message? <div className="bg-blue-500">{message}</div>:'')
         const showLoading=() => (loading? <div className="bg-green-500">Loading...</div>:<div></div>)
@@ -54,7 +63,7 @@ const SignInComponent = () => {
                 <div className="bg-grey-lighter min-h-screen flex flex-col">
                 <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
                     <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
-                    <h1 className="mb-8 text-3xl text-center">Sign up</h1>
+                    <h1 className="mb-8 text-3xl text-center">Sign In</h1>
                    
                     <input  type="text" 
                             className="block border border-grey-light w-full p-3 rounded mb-4" 

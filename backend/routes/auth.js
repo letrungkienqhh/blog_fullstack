@@ -13,7 +13,7 @@ router.get('/signout',signout)
 
 router.get('/secret',requireSignin,(req,res) => {
     return res.json({
-        message:'You have to access this secret api!'
+        message:req.user
     })
 })
 module.exports=router
