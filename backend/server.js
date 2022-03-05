@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cookieParser =require('cookie-parser')
 const cors =require('cors')
 require('dotenv').config()
+
 //routers
 const blogRoutes=require('./routes/blog')
 const authRoutes=require('./routes/auth')

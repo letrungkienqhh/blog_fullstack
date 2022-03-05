@@ -19,6 +19,9 @@ const admin = () => {
                   <Link href={'/admin/crud/category-tag'}>
                     <h2>Category</h2>
                   </Link> 
+                  <Link href={'/admin/crud/blog'}>
+                    <h2>Create blog</h2>
+                  </Link> 
               </div>
               
               
